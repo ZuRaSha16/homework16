@@ -1,21 +1,21 @@
 const orders = [
   {
     id: 1,
-    name: "milk",
+    productName: "milk",
     quantity: 2,
     totalPrice: 100,
     status: "pending",
   },
   {
     id: 2,
-    name: "bread",
+    productName: "bread",
     quantity: 1,
     totalPrice: 50,
     status: "completed",
   },
   {
     id: 3,
-    name: "apple",
+    productName: "apple",
     quantity: 5,
     totalPrice: 200,
     status: "pending",
@@ -39,15 +39,15 @@ const getById = (req, res) => {
 };
 
 const createOrder = (req, res) => {
-  const { name, quantity, totalPrice, status } = req.body;
-  if (!name)
-    return res.status(400).json({ message: "product name is required" });
+  const { productName, quantity, totalPrice, status } = req.body;
+  if (!productName)
+    return res.status(400).json({ message: "product productName is required" });
   if (quantity > 10 || totalPrice > 500)
     return res.status(400).json({ message: "Invalid quantity or totalPrice" });
   const lastID = orders[orders.length - 1]?.id || 0;
   const newOrder = {
     id: lastID + 1,
-    name,
+    productName,
     quantity,
     totalPrice,
     status,
@@ -58,7 +58,7 @@ const createOrder = (req, res) => {
 
 const updateOrder = (req, res) => {
   const { id } = req.params;
-  const { name, quantity, totalPrice, status } = req.body;
+  const { productName, quantity, totalPrice, status } = req.body;
   const index = orders.findIndex((o) => o.id === Number(id));
   if (index === -1) return res.status(404).json({ message: "id invalid" });
   if (quantity > 10 || totalPrice > 500)
@@ -66,7 +66,7 @@ const updateOrder = (req, res) => {
 
   orders[index] = {
     ...orders[index],
-    name: name ?? orders[index].name,
+    productName: productName ?? orders[index].productName,
     quantity: quantity ?? orders[index].quantity,
     totalPrice: totalPrice ?? orders[index].totalPrice,
     status: status ?? orders[index].status,
